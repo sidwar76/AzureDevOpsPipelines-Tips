@@ -6,6 +6,7 @@ pool:
 
 variables:
   subscription: Anuj's Subscription New(0d3ce63c-abaa-48ae-bbe1-f582cea576b9)
+  serviceConnectionName: sid
   resourceGroup: resourcegroup-tfstate
   storageAccount: terraformtfstateskip
   container: tfstate
@@ -25,7 +26,7 @@ steps:
     provider: 'azurerm'
     command: 'init'
     workingDirectory: '$(System.DefaultWorkingDirectory)/skip-step'
-    backendServiceArm: '$(subscription)'
+    backendServiceArm: '$(serviceConnectionName)'
 #   backendAzureRmResourceGroupName: '$(resourceGroup)'
 #   backendAzureRmStorageAccountName: '$(storageAccount)'
 #   backendAzureRmContainerName: '$(container)'
@@ -41,25 +42,7 @@ steps:
     # commandOptions: '-detailed-exitcode -out=tfplan'
     environmentServiceNameAzureRM: '$(subscription)'
 
-- task: PowerShell@2
-  displayName: detect any terraform change
-  inputs:
-    workingDirectory: '$(System.DefaultWorkingDirectory)/skip-step'
-    targetType: 'inline'
-    script: |
-      # Write-Host "LASTEXITCODE : $LASTEXITCODE"
-      $plan = $(terraform show -json tfplan | ConvertFrom-Json)
-      $actions = $plan.resource_changes.change.actions
-      Write-Host "Terraform actions : $actions"
-      if (($actions -contains 'create') -or ($actions -contains 'delete') -or ($actions -contains 'update'))
-      {
-        Write-Host "Terraform will perform the following actions : $actions"
-        Write-Host "##vso[task.setvariable variable=anyTfChanges;]true"
-      }
-      else
-      {
-        Write-Host "There is no change detected in Terraform tfplan file"
-      }
+
 
 - task: TerraformTaskV1@0
   displayName: terraform apply tfplan
@@ -69,4 +52,4 @@ steps:
     command: 'apply'
     workingDirectory: '$(System.DefaultWorkingDirectory)/skip-step'
     commandOptions: 'tfplan'
-    environmentServiceNameAzureRM: '$(subscription)'
+    environmentServiceNameAzureRM: '$(serviceConnectionName)'
