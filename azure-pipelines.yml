@@ -26,10 +26,10 @@ steps:
     command: 'init'
     workingDirectory: '$(System.DefaultWorkingDirectory)/skip-step'
     backendServiceArm: '$(serviceConnectionName)'
-#   backendAzureRmResourceGroupName: '$(resourceGroup)'
-#   backendAzureRmStorageAccountName: '$(storageAccount)'
-#   backendAzureRmContainerName: '$(container)'
-#   backendAzureRmKey: '$(tfstateFile)'
+    backendAzureRmResourceGroupName: '$(resourceGroup)'
+    backendAzureRmStorageAccountName: '$(storageAccount)'
+    backendAzureRmContainerName: '$(container)'
+    backendAzureRmKey: '$(tfstateFile)'
 
 - task: TerraformTaskV1@0
   displayName: terraform plan -out=tfplan
