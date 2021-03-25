@@ -5,7 +5,6 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  subscription: Anuj's Subscription New(0d3ce63c-abaa-48ae-bbe1-f582cea576b9)
   serviceConnectionName: sid
   resourceGroup: resourcegroup-tfstate
   storageAccount: terraformtfstateskip
@@ -40,7 +39,7 @@ steps:
     workingDirectory: '$(System.DefaultWorkingDirectory)/skip-step'
     commandOptions: '-out=tfplan'
     # commandOptions: '-detailed-exitcode -out=tfplan'
-    environmentServiceNameAzureRM: '$(subscription)'
+    environmentServiceNameAzureRM: '$(serviceConnectionName)'
 
 
 
