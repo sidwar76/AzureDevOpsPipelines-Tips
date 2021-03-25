@@ -6,9 +6,9 @@ pool:
 
 variables:
   serviceConnectionName: sid
-  resourceGroup: resourcegroup-tfstate
-  storageAccount: terraformtfstateskip
-  container: tfstate
+  resourceGroup: siddharth_rg
+  storageAccount: sidwar 
+  container: sid
   tfstateFile: terraform.tfstate
   anyTfChanges: false
 
